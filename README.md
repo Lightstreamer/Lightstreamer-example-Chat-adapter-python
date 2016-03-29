@@ -19,7 +19,7 @@ The project consists of the `chat.py` Python module, which contains  the code fo
 
 
 #### The Adapter Set Configuration
-This Adapter Set is configured and will be referenced by the clients as `PROXY_NODECHAT`.
+This Adapter Set is configured and will be referenced by the clients as `PROXY_PYTHONCHAT`.
 As *Proxy Data Adapter* and *Proxy MetaData Adapter*, you may configure also the robust versions. The *Robust Proxy Data Adapter* and *Robust Proxy MetaData Adapter* have some recovery capabilities and avoid to terminate the Lightstreamer Server process, so it can handle the case in which a Remote Data Adapter is missing or fails, by suspending the data flow and trying to connect to a new Remote Data Adapter instance. Full details on the recovery behavior of the Robust Data Adapter are available as inline comments within the `DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_robust_conf_template/adapters.xml` file in your Lightstreamer Server installation.
 
 The `adapters.xml` file for this demo should look like:
@@ -48,7 +48,7 @@ The `adapters.xml` file for this demo should look like:
 <i>NOTE: not all configuration options of a Proxy Adapter are exposed by the file suggested above.
 You can easily expand your configurations using the generic template, DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_conf_template/adapters.xml or DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_robust_conf_template/adapters.xml, as a reference.</i>
 
-<!-- END DESCRIPTION lightstreamer-example-chat-adapter-node -->
+<!-- END DESCRIPTION lightstreamer-example-chat-adapter-python -->
 
 ## Install
 If you want to install a version of this demo in your local Lightstreamer Server, follow these steps:
