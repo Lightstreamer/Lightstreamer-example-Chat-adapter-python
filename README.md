@@ -68,7 +68,7 @@ If you want to install a version of this demo in your local Lightstreamer Server
  ```bash
  $ python chat.py
  ```
-* Test the Adapter, launching the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) listed in [Clients Using This Adapter](#Clients-using-this-adapter).
+* Test the Adapter, launching the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) listed in [Clients Using This Adapter](#clients-using-this-adapter).
     * To make the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) front-end pages get data from the newly installed Adapter Set, you need to modify the front-end pages and set the required Adapter Set name to PROXY_PYTHONCHAT when creating the LightstreamerClient instance. So edit the `lsClient.js` file of the *Basic Chat Demo* front-end deployed under `Lightstreamer/pages/ChatDemo` and replace:
 
  ```javascript
