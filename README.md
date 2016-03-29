@@ -11,7 +11,7 @@ As an example of a client using this adapter, you may refer to the [Basic Chat D
 
 ## Details
 
-This project shows the use of DataProvider and MetadataProvider classes provided in the [Lightstreamer SDK for Pythhon Adapters](https://github.com/Lightstreamer/Lightstreamer-lib-node-python). For more details, see [Python Interfaces](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python#python-interfaces) in [Lightstreamer - "Hello World" Tutorial - Python Adapter](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python) 
+This project shows the use of DataProvider and MetadataProvider classes provided in the [Lightstreamer SDK for Pythhon Adapters](https://github.com/Lightstreamer/Lightstreamer-lib-python). For more details, see [Python Interfaces](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python#python-interfaces) in [Lightstreamer - "Hello World" Tutorial - Python Adapter](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python) 
 
 ### Dig the Code
 
