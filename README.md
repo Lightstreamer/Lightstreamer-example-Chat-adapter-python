@@ -80,14 +80,14 @@ If you want to install a version of this demo in your local Lightstreamer Server
      ```
      (you don't need to reconfigure the Data Adapter name, as it is the same in both Adapter Sets).
     * As the referred Adapter Set has changed, make sure that the front-end no longer shares the Engine with other demos. So a line like this:
- ```javascript
- lsClient.connectionSharing.enableSharing("ChatDemoCommonConnection", "ATTACH", "CREATE");
- ```
-
- should become like this:
- ```javascript
- lsClient.connectionSharing.enableSharing("RemoteChatDemoConnection", "ATTACH", "CREATE");
- ```
+     ```javascript
+     lsClient.connectionSharing.enableSharing("ChatDemoCommonConnection", "ATTACH", "CREATE");
+     ```
+     should become like this:
+     
+     ```javascript
+     lsClient.connectionSharing.enableSharing("RemoteChatDemoConnection", "ATTACH", "CREATE");
+     ```
     * Open a browser window and go to: [http://localhost:8080/ChatDemo](http://localhost:8080/ChatDemo)
 
 ## See Also
