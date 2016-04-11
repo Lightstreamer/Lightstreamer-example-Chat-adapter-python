@@ -35,7 +35,7 @@ class ChatMetadataAdapter(MetadataProvider):
         self.data_adapter = data_adapter
 
         # Dictionary to keep client context information supplied by
-        # Ligthstreamer on new session notifications.
+        # Lightstreamer on new session notifications.
         self.sessions = {}
         # Lock used to manage concurrent access to the sessions dictionary.
         self.sessions_lock = Lock()
