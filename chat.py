@@ -159,7 +159,9 @@ class ChataDataAdapter(DataProvider):
 
 def main():
     '''Module Entry Point'''
-    logging.basicConfig(dateFmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+    logging.basicConfig(datefmt='%m/%d/%Y %I:%M:%S %p',
+                        format='%(asctime)s %(levelname)-7s %(message)s',
+                        level=logging.DEBUG)
 
     parser = argparse.ArgumentParser(description=("Launch the Remote Chat "
                                                   "Adapter."))
