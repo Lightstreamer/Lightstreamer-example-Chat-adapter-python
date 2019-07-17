@@ -9,7 +9,7 @@ As an example of a client using this adapter, you may refer to the [Basic Chat D
 
 ## Details
 
-This project shows the use of *DataProvider* and *MetadataProvider* classes provided in the [Lightstreamer SDK for Pythhon Adapters](https://github.com/Lightstreamer/Lightstreamer-lib-python-adapter). For more details, see [Python Interfaces](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python#python-interfaces) in [Lightstreamer - "Hello World" Tutorial - Python Adapter](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python) 
+This project shows the use of *DataProvider* and *MetadataProvider* classes provided in the [Lightstreamer SDK for Pythhon Adapters](https://github.com/Lightstreamer/Lightstreamer-lib-python-adapter). For more details, see [Python Interfaces](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python#python-interfaces) in [Lightstreamer - "Hello World" Tutorial - Python Adapter](https://github.com/Lightstreamer/Lightstreamer-example-HelloWorld-adapter-python)
 
 ### Dig the Code
 
@@ -32,7 +32,7 @@ The `adapters.xml` file for this demo should look like:
         <param name="request_reply_port">8003</param>
         <param name="timeout">36000000</param>
     </metadata_provider>
-    
+
     <data_provider name="CHAT_ROOM">
         <adapter_class>ROBUST_PROXY_FOR_REMOTE_ADAPTER</adapter_class>
         <classloader>log-enabled</classloader>
@@ -43,8 +43,8 @@ The `adapters.xml` file for this demo should look like:
 </adapters_conf>
 ```
 
-<i>NOTE: not all configuration options of a Proxy Adapter are exposed by the file suggested above.
-You can easily expand your configurations using the generic template, DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_conf_template/adapters.xml or DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_robust_conf_template/adapters.xml, as a reference.</i>
+*NOTE: not all configuration options of a Proxy Adapter are exposed by the file suggested above.
+You can easily expand your configurations using the generic template, DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_conf_template/adapters.xml or DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_robust_conf_template/adapters.xml, as a reference.*
 
 <!-- END DESCRIPTION lightstreamer-example-chat-adapter-python -->
 
@@ -57,18 +57,18 @@ If you want to install a version of this demo in your local Lightstreamer Server
 * Install the Lightstreamer SDK for Python Adapter package, by launching the command:
 
  ```bash
- $ pip install --pre lightstreamer-adapter
+ $ pip install lightstreamer-adapter
  ```
 * Download the `chat.py` file from this project.
 * Launch Lightstreamer Server. The Server startup will complete only after a successful connection between the Proxy Data Adapter and the Remote Data Adapter.
-* Launch the Python  Remote Adapter, trough the command:
+* Launch the Python Remote Adapter, through the command:
 
  ```bash
  $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002
  ```
 * Test the Adapter, launching the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) listed in [Clients Using This Adapter](#clients-using-this-adapter).
     * To make the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) front-end pages get data from the newly installed Adapter Set, you need to modify the front-end pages and set the required Adapter Set name to PROXY_PYTHONCHAT when creating the LightstreamerClient instance. So edit the `lsClient.js` file of the *Basic Chat Demo* front-end deployed under `Lightstreamer/pages/ChatDemo` and replace:
-    
+
      ```javascript
      var lsClient = new LightstreamerClient(protocolToUse + "//localhost:" + portToUse, "CHAT");
      ```
@@ -82,11 +82,70 @@ If you want to install a version of this demo in your local Lightstreamer Server
      lsClient.connectionSharing.enableSharing("ChatDemoCommonConnection", "ATTACH", "CREATE");
      ```
      should become like this:
-     
+
      ```javascript
      lsClient.connectionSharing.enableSharing("RemoteChatDemoConnection", "ATTACH", "CREATE");
      ```
     * Open a browser window and go to: [http://localhost:8080/ChatDemo](http://localhost:8080/ChatDemo)
+
+### Available improvements
+
+#### Add Encryption
+
+
+This feature is only available in SDK for Python Adapters version 1.2 or newer, which requires version 1.9 or newer of the Adapter Remoting Infrastructure (i.e. Proxy Adapters), which in turns corresponds to Server version 7.1 or newer.
+
+Each TCP connection from a Remote Adapter can be encrypted via TLS. To have the Proxy Adapters accept only TLS connections, a suitable configuration should be added in adapters.xml in the <data_provider> block, like this:
+```xml
+  <data_provider>
+    ...
+    <param name="tls">Y</param>
+    <param name="tls.keystore.type">JKS</param>
+    <param name="tls.keystore.keystore_file">./myserver.keystore</param>
+    <param name="tls.keystore.keystore_password.type">text</param>
+    <param name="tls.keystore.keystore_password">xxxxxxxxxx</param>
+    ...
+  </data_provider>
+```
+and the same should be added in the <metadata_provider> block.
+
+This requires that a suitable keystore with a valid certificate is provided. See the configuration details in `DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_robust_conf_template/adapters.xml`.
+The provided source code is already predisposed for TLS connection on all ports. You can rerun the Python Remote Adapter with the new configuration by going to the `Deployment_Node_Remote_Adapter` folder and launching:
+ 
+ ```bash
+ $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002 --tls
+ ```
+where the same hostname supported by the provided certificate must be supplied.
+
+*NOTE: For your experiments, you can configure the adapters.xml to use the same JKS keystore `myserver.keystore`
+provided out of the box in the Lightstreamer distribution. 
+As such a keystore contains an invalid certificate, remember to configure your local environment to "trust" it.*
+
+#### Add Authentication
+
+This feature is only available in SDK for Python Adapters version 1.2 or newer, which requires version 1.9 or newer of the Adapter Remoting Infrastructure (i.e. Proxy Adapters), which in turns corresponds to Server version 7.1 or newer.
+
+Each TCP connection from a Remote Adapter can be subject to Remote Adapter authentication through the submission of user/password credentials. To enforce credential check on the Proxy Adapters, a suitable configuration should be added in adapters.xml in the `<data_provider>` block, like this:
+
+```xml
+  <data_provider>
+    ...
+    <param name="auth">Y</param>
+    <param name="auth.credentials.1.user">user1</param>
+    <param name="auth.credentials.1.password">pwd1</param>
+    ...
+  </data_provider>
+```
+and the same should be added in the `<metadata_provider>` block.
+
+See the configuration details in `DOCS-SDKs/adapter_remoting_infrastructure/doc/adapter_robust_conf_template/adapters.xml`.
+The provided source code is already predisposed for credential submission on both adapters. You can rerun the Python Remote Adapter with the new configuration by going to the `Deployment_Node_Remote_Adapter` folder and launching:
+
+ ```bash
+ $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002 --user user1 --password pwd1
+ ```
+
+Authentication can (and should) be combined with TLS encryption.
 
 ## See Also
 
@@ -106,4 +165,4 @@ If you want to install a version of this demo in your local Lightstreamer Server
 
 ## Lightstreamer Compatibility Notes
 
-* Compatible with Lightstreamer SDK for Python Adapters since 1.0
+* Compatible with Lightstreamer SDK for Python Adapters version 1.1 or newer
