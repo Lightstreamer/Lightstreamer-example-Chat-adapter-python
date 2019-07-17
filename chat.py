@@ -5,6 +5,7 @@ of messages sent by users accessing the client Chat Application demo.
 import logging
 import time
 import argparse
+import ssl
 from threading import Lock
 from lightstreamer_adapter.interfaces.metadata import (MetadataProvider,
                                                        NotificationError)
@@ -28,6 +29,7 @@ class ChatMetadataAdapter(MetadataProvider):
     """Subclass of MetadataProvider which provides a specific implementation
     to manage user sessions and user messages.
     """
+
     def __init__(self, data_adapter):
         self.log = logging.getLogger("LS_demos_Logger.chat")
         # Reference to the provided ChatDataAdapter, which will be used to send
@@ -90,6 +92,7 @@ class ChataDataAdapter(DataProvider):
     sent by users to the unique chat room, managed through the unique item
     'chat_room'.
     """
+
     def __init__(self):
         self.log = logging.getLogger("LS_demos_Logger.chat")
         self.subscribed = None
@@ -168,6 +171,15 @@ def main():
     parser.add_argument('--host', type=str, nargs='?', metavar='<host>',
                         default="localhost", help=("the host name or ip "
                                                    "address of LS server"))
+    parser.add_argument('--tls', action='store_true',
+                        help=("use encrypted communications"))
+    parser.set_defaults(tls=False)
+    parser.add_argument('--user', type=str, metavar='<user>',
+                        required=False, help=("the username credential to be "
+                                              "sent to the Proxy Adapter"))
+    parser.add_argument('--password', type=str, metavar='<password>',
+                        required=False, help=("the password credential to be "
+                                              "sent to the Proxy Adapter"))
     parser.add_argument('--metadata_rrport', type=int, metavar='<port>',
                         required=True, help=("the request/reply tcp port "
                                              "number where the Proxy Metadata "
@@ -185,24 +197,36 @@ def main():
     # Creates a new instance of the ChatDataAdapter.
     data_adapter = ChataDataAdapter()
 
-    # Creates a new instance of ChatMetadataAdapter and pass data_adapter
-    # to it.
+    # Creates a new instance of ChatMetadataAdapter and pass data_adapter to it.
     metadata_adaper = ChatMetadataAdapter(data_adapter)
 
-    # Creates and starts the MetadataProviderServer, passing to it
-    # metadata_adaper and the tuple containing the target host information.
+    context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH, cafile="push_mycompany_com.cer") if args.tls is True else None
+    # context = ssl._create_unverified_context(purpose=ssl.Purpose.SERVER_AUTH) if args.tls is True else None
+
+    # Creates the MetadataProviderServer, passing to it metadata_adaper and the
+    # tuple containing the target host information.
     metadata_provider_server = MetadataProviderServer(metadata_adaper,
                                                       (args.host,
-                                                       args.metadata_rrport))
-    metadata_provider_server.start()
+                                                       args.metadata_rrport),
+                                                      ssl_context=context)
 
-    # Creates and starts the DataProviderServer, passing to it data_adapter
-    # and the tuple containing the target host information.
+    # Creates the DataProviderServer, passing to it data_adapter and the tuple
+    # containing the target host information.
     dataprovider_server = DataProviderServer(data_adapter,
                                              (args.host,
                                               args.data_rrport,
                                               args.data_notifport),
-                                             keep_alive=0)
+                                             keep_alive=0,
+                                             ssl_context=context)
+
+    if args.user is not None and args.password is not None:
+        metadata_provider_server.remote_user = args.user
+        metadata_provider_server.remote_password = args.password
+        dataprovider_server.remote_user = args.user
+        dataprovider_server.remote_password = args.password
+
+    # Starts the MetadataProviderServer and the DataProviderServer
+    metadata_provider_server.start()
     dataprovider_server.start()
 
 
