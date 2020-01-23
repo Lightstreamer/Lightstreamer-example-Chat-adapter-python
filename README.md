@@ -92,7 +92,6 @@ If you want to install a version of this demo in your local Lightstreamer Server
 
 #### Add Encryption
 
-
 This feature is only available in SDK for Python Adapters version 1.2 or newer, which requires version 1.9 or newer of the Adapter Remoting Infrastructure (i.e. Proxy Adapters), which in turns corresponds to Server version 7.1 or newer.
 
 Each TCP connection from a Remote Adapter can be encrypted via TLS. To have the Proxy Adapters accept only TLS connections, a suitable configuration should be added in adapters.xml in the <data_provider> block, like this:
@@ -165,4 +164,4 @@ Authentication can (and should) be combined with TLS encryption.
 
 ## Lightstreamer Compatibility Notes
 
-* Compatible with Lightstreamer SDK for Python Adapters version 1.1 or newer
+* Compatible with Lightstreamer SDK for Python Adapters version 1.2 or newer
