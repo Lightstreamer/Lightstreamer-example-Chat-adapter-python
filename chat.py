@@ -6,6 +6,7 @@ import logging
 import time
 import argparse
 import ssl
+import os
 from threading import Lock
 from lightstreamer_adapter.interfaces.metadata import (MetadataProvider,
                                                        NotificationError)
@@ -232,3 +233,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    while True:
+        try:
+            input()
+        except EOFError:
+            break
+        except KeyboardInterrupt:
+            break
+
+    os._exit(0)
