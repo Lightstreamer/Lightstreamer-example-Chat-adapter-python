@@ -110,7 +110,7 @@ Each TCP connection from a Remote Adapter can be encrypted via TLS. To have the 
 and the same should be added in the <metadata_provider> block.
 
 This requires that a suitable keystore with a valid certificate is provided. See the configuration details in the [provided template](https://lightstreamer.com/docs/ls-ARI/latest/adapter_robust_conf_template/adapters.xml).
-The provided source code is already predisposed for TLS connection on all ports. You can rerun the Python Remote Adapter with the new configuration by going to the `Deployment_Node_Remote_Adapter` folder and launching:
+The provided source code is already predisposed for TLS connection on all ports. You can rerun the Python Remote Adapter with the new configuration by launching:
  
  ```bash
  $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002 --tls
@@ -139,7 +139,7 @@ Each TCP connection from a Remote Adapter can be subject to Remote Adapter authe
 and the same should be added in the `<metadata_provider>` block.
 
 See the configuration details in the [provided template](https://lightstreamer.com/docs/ls-ARI/latest/adapter_robust_conf_template/adapters.xml).
-The provided source code is already predisposed for credential submission on both adapters. You can rerun the Python Remote Adapter with the new configuration by going to the `Deployment_Node_Remote_Adapter` folder and launching:
+The provided source code is already predisposed for credential submission on both adapters. You can rerun the Python Remote Adapter with the new configuration by launching:
 
  ```bash
  $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002 --user user1 --password pwd1
