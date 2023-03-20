@@ -13,7 +13,8 @@ from lightstreamer_adapter.interfaces.metadata import (MetadataProvider,
                                                        NotificationError)
 from lightstreamer_adapter.interfaces.data import DataProvider, SubscribeError
 from lightstreamer_adapter.server import (DataProviderServer,
-                                          MetadataProviderServer)
+                                          MetadataProviderServer,
+                                          ExceptionHandler)
 __author__ = "Lightstreamer Srl"
 __copyright__ = "Copyright"
 __credits__ = ["Lightstreamer Srl"]
@@ -162,6 +163,28 @@ class ChataDataAdapter(DataProvider):
         self.listener.update(self.subscribed, update, False)
 
 
+class MyExceptionHandler(ExceptionHandler):
+    """Implementation of the ExceptionHandler abstract class, which handles
+    exceptions in a stronger way than the default;
+    it could alternatively be used to handle exceptions in a milder way and
+    to implement recovery actions.
+    """
+
+    def __init__(self):
+        self.log = logging.getLogger("LS_demos_Logger.chat")
+
+    def handle_ioexception(self, exception):
+        """In this case we keep the default handling, which closes the process
+        """
+        return True
+
+    def handle_exception(self, exception):
+        traceback.print_exc()
+        self.log.fatal("Caught exception: %s", str(exception))
+        os._exit(1)
+        return False
+
+
 def main():
     '''Module Entry Point'''
     logging.basicConfig(datefmt='%m/%d/%Y %I:%M:%S %p',
@@ -196,6 +219,10 @@ def main():
                                              "on"))
     args = parser.parse_args()
 
+    # Creates an exception handler to override the default handling behavior
+    # which is weaker
+    exceptionHandler = MyExceptionHandler()
+
     # Creates a new instance of the ChatDataAdapter.
     data_adapter = ChataDataAdapter()
 
@@ -212,6 +239,8 @@ def main():
                                                        args.metadata_rrport),
                                                       ssl_context=context)
 
+    metadata_provider_server.set_exception_handler(exceptionHandler)
+
     # Creates the DataProviderServer, passing to it data_adapter and the tuple
     # containing the target host information.
     dataprovider_server = DataProviderServer(data_adapter,
@@ -220,6 +249,8 @@ def main():
                                               args.data_notifport),
                                              keep_alive=0,
                                              ssl_context=context)
+
+    dataprovider_server.set_exception_handler(exceptionHandler)
 
     if args.user is not None and args.password is not None:
         metadata_provider_server.remote_user = args.user
