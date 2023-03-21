@@ -270,6 +270,8 @@ if __name__ == "__main__":
         traceback.print_exc()
         os._exit(0)
 
+    # after calling metadata_provider_server.start() and dataprovider_server.start()
+    # we have to keep the main thread active in some way (see the docs)
     while True:
         try:
             input()
