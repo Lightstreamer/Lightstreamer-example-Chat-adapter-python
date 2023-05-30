@@ -37,7 +37,6 @@ The `adapters.xml` file for this demo should look like:
         <adapter_class>ROBUST_PROXY_FOR_REMOTE_ADAPTER</adapter_class>
         <classloader>log-enabled</classloader>
         <param name="request_reply_port">8001</param>
-        <param name="notify_port">8002</param>
         <param name="timeout">36000000</param>
     </data_provider>
 </adapters_conf>
@@ -65,7 +64,7 @@ If you want to install a version of this demo in your local Lightstreamer Server
 * Launch the Python Remote Adapter, through the command:
 
  ```bash
- $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002
+ $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001
  ```
 * Test the Adapter, launching the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) listed in [Clients Using This Adapter](#clients-using-this-adapter).
     * To make the [Lightstreamer - Basic Chat Demo - HTML Client](https://github.com/Lightstreamer/Lightstreamer-example-Chat-client-javascript) front-end pages get data from the newly installed Adapter Set, you need to modify the front-end pages and set the required Adapter Set name to PROXY_PYTHONCHAT when creating the LightstreamerClient instance. So edit the `lsClient.js` file of the *Basic Chat Demo* front-end deployed under `Lightstreamer/pages/ChatDemo` and replace:
@@ -93,8 +92,6 @@ If you want to install a version of this demo in your local Lightstreamer Server
 
 #### Add Encryption
 
-This feature is only available in SDK for Python Adapters version 1.2 or newer and requires Server version 7.1.0 (which corresponded to Adapter Remoting Infrastructure, i.e. Proxy Adapters, 1.9.6) or newer.
-
 Each TCP connection from a Remote Adapter can be encrypted via TLS. To have the Proxy Adapters accept only TLS connections, a suitable configuration should be added in adapters.xml in the <data_provider> block, like this:
 ```xml
   <data_provider>
@@ -113,7 +110,7 @@ This requires that a suitable keystore with a valid certificate is provided. See
 The provided source code is already predisposed for TLS connection on all ports. You can rerun the Python Remote Adapter with the new configuration by launching:
  
  ```bash
- $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002 --tls
+ $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --tls
  ```
 where the same hostname supported by the provided certificate must be supplied.
 
@@ -122,8 +119,6 @@ provided out of the box in the Lightstreamer distribution.
 As such a keystore contains an invalid certificate, remember to configure your local environment to "trust" it.*
 
 #### Add Authentication
-
-This feature is only available in SDK for Python Adapters version 1.2 or newer and requires Server version 7.1.0 (which corresponded to Adapter Remoting Infrastructure, i.e. Proxy Adapters, 1.9.6) or newer.
 
 Each TCP connection from a Remote Adapter can be subject to Remote Adapter authentication through the submission of user/password credentials. To enforce credential check on the Proxy Adapters, a suitable configuration should be added in adapters.xml in the `<data_provider>` block, like this:
 
@@ -142,7 +137,7 @@ See the configuration details in the [provided template](https://lightstreamer.c
 The provided source code is already predisposed for credential submission on both adapters. You can rerun the Python Remote Adapter with the new configuration by launching:
 
  ```bash
- $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --data_notifport 8002 --user user1 --password pwd1
+ $ python chat.py --host localhost --metadata_rrport 8003 --data_rrport 8001 --user user1 --password pwd1
  ```
 
 Authentication can (and should) be combined with TLS encryption.
@@ -165,4 +160,6 @@ Authentication can (and should) be combined with TLS encryption.
 
 ## Lightstreamer Compatibility Notes
 
-* Compatible with Lightstreamer SDK for Python Adapters version 1.3 or newer
+* Compatible with Lightstreamer SDK for Python Adapters version 1.3 or newer and Lightstreamer Server version 7.4 or newer.
+- For a version of this example compatible with Lightstreamer Server version since 7.0, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-Chat-adapter-python/tree/for_Lightstreamer_7.3).
+- For a version of this example compatible with Lightstreamer SDK for Python Adapters version 1.2, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-Chat-adapter-python/tree/for_Lightstreamer_7.3).

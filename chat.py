@@ -211,12 +211,8 @@ def main():
                                              "Adapter is listening on"))
     parser.add_argument('--data_rrport', type=int, metavar='<port>',
                         required=True, help=("the request/reply tcp port "
-                                             "where the Proxy DataAdapter is "
+                                             "where the Proxy Data Adapter is "
                                              "listening on"))
-    parser.add_argument('--data_notifport', type=int, metavar='<port>',
-                        required=True, help=("the notify tcp port where the "
-                                             "Proxy DataAdapter is listening "
-                                             "on"))
     args = parser.parse_args()
 
     # Creates an exception handler to override the default handling behavior
@@ -245,8 +241,7 @@ def main():
     # containing the target host information.
     dataprovider_server = DataProviderServer(data_adapter,
                                              (args.host,
-                                              args.data_rrport,
-                                              args.data_notifport),
+                                              args.data_rrport),
                                              keep_alive=0,
                                              ssl_context=context)
 
