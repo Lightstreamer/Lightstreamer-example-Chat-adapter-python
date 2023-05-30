@@ -18,7 +18,7 @@ The project consists of the `chat.py` Python module, which contains  the code fo
 
 #### The Adapter Set Configuration
 This Adapter Set is configured and will be referenced by the clients as `PROXY_PYTHONCHAT`.
-As *Proxy Data Adapter* and *Proxy MetaData Adapter*, you may configure also the robust versions. The *Robust Proxy Data Adapter* and *Robust Proxy MetaData Adapter* have some recovery capabilities and avoid to terminate the Lightstreamer Server process, so it can handle the case in which a Remote Data Adapter is missing or fails, by suspending the data flow and trying to connect to a new Remote Data Adapter instance. Full details on the recovery behavior of the Robust Data Adapter are available as inline comments within the [provided template](https://lightstreamer.com/docs/ls-server/latest_7_3/remote_adapter_robust_conf_template/adapters.xml).
+As *Proxy Data Adapter* and *Proxy MetaData Adapter*, you may configure also the robust versions. The *Robust Proxy Data Adapter* and *Robust Proxy MetaData Adapter* have some recovery capabilities and avoid to terminate the Lightstreamer Server process, so it can handle the case in which a Remote Data Adapter is missing or fails, by suspending the data flow and trying to connect to a new Remote Data Adapter instance. Full details on the recovery behavior of the Robust Data Adapter are available as inline comments within the [provided template](https://lightstreamer.com/docs/ls-server/latest/remote_adapter_robust_conf_template/adapters.xml).
 
 The `adapters.xml` file for this demo should look like:
 
@@ -43,18 +43,16 @@ The `adapters.xml` file for this demo should look like:
 </adapters_conf>
 ```
 
-*NOTE: the use of a notify port for a Data Adapter is mandatory for Servers earlier than 7.4, then it is supported for backward compatibility.*
-
 *NOTE: not all configuration options of a Proxy Adapter are exposed by the file suggested above.
 You can easily expand your configurations using the generic template
-for [basic](https://lightstreamer.com/docs/ls-server/latest_7_3/remote_adapter_conf_template/adapters.xml) and [robust](https://lightstreamer.com/docs/ls-server/latest_7_3/remote_adapter_robust_conf_template/adapters.xml) Proxy Adapters as a reference.*
+for [basic](https://lightstreamer.com/docs/ls-server/latest/remote_adapter_conf_template/adapters.xml) and [robust](https://lightstreamer.com/docs/ls-server/latest/remote_adapter_robust_conf_template/adapters.xml) Proxy Adapters as a reference.*
 
 <!-- END DESCRIPTION lightstreamer-example-chat-adapter-python -->
 
 ## Install
 If you want to install a version of this demo in your local Lightstreamer Server, follow these steps:
 * Download *Lightstreamer Server* (Lightstreamer Server comes with a free non-expiring demo license for 20 connected users) from [Lightstreamer Download page](http://www.lightstreamer.com/download.htm), and install it, as explained in the `GETTING_STARTED.TXT` file in the installation home directory.
-* Get the `deploy.zip` file of the ["Release for Lightstreamer 7.3" release](https://github.com/Lightstreamer/Lightstreamer-example-chat-adapter-python/releases) and unzip it, obtaining the `deployment` folder.
+* Get the `deploy.zip` file of the [latest  release](https://github.com/Lightstreamer/Lightstreamer-example-chat-adapter-python/releases) and unzip it, obtaining the `deployment` folder.
 * Plug the Proxy Data Adapter into the Server: go to the `deployment/Deployment_LS` folder and copy the `PythonChatAdapter` directory and all of its files to the `adapters` folder of your Lightstreamer Server installation.
 * Alternatively, you may plug the *robust* versions of the Proxy Data Adapter: go to the `deployment/Deployment_LS(robust)` folder and copy the `PythonChatAdapter` directory and all of its files into the `adapters` folder.
 * Install the Lightstreamer SDK for Python Adapter package, by launching the command:
@@ -111,7 +109,7 @@ Each TCP connection from a Remote Adapter can be encrypted via TLS. To have the 
 ```
 and the same should be added in the <metadata_provider> block.
 
-This requires that a suitable keystore with a valid certificate is provided. See the configuration details in the [provided template](https://lightstreamer.com/docs/ls-server/latest_7_3/remote_adapter_robust_conf_template/adapters.xml).
+This requires that a suitable keystore with a valid certificate is provided. See the configuration details in the [provided template](https://lightstreamer.com/docs/ls-server/latest/remote_adapter_robust_conf_template/adapters.xml).
 The provided source code is already predisposed for TLS connection on all ports. You can rerun the Python Remote Adapter with the new configuration by launching:
  
  ```bash
@@ -140,7 +138,7 @@ Each TCP connection from a Remote Adapter can be subject to Remote Adapter authe
 ```
 and the same should be added in the `<metadata_provider>` block.
 
-See the configuration details in the [provided template](https://lightstreamer.com/docs/ls-server/latest_7_3/remote_adapter_robust_conf_template/adapters.xml).
+See the configuration details in the [provided template](https://lightstreamer.com/docs/ls-server/latest/remote_adapter_robust_conf_template/adapters.xml).
 The provided source code is already predisposed for credential submission on both adapters. You can rerun the Python Remote Adapter with the new configuration by launching:
 
  ```bash
@@ -167,4 +165,4 @@ Authentication can (and should) be combined with TLS encryption.
 
 ## Lightstreamer Compatibility Notes
 
-* Compatible with Lightstreamer SDK for Python Adapters version 1.2
+* Compatible with Lightstreamer SDK for Python Adapters version 1.3 or newer
